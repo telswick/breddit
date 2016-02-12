@@ -34,6 +34,14 @@ class Comment extends Model
         return $this->belongsTo('App\User');  
     }
 
+    /**
+     * Get the parent comment that owns the comment.
+     */
+    public function parentComment()
+    {
+        return $this->belongsTo('App\Comment');  
+    }
+
 
 
 

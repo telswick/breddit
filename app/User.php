@@ -26,7 +26,7 @@ class User extends Authenticatable
 
 
     /**
-     * Get the subbreddits of the user.
+     * Get the subbreddits of the user, that the user has created.
      */
     public function subbreddits()
     {
@@ -39,12 +39,22 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Post');
     }
+
+    /**
+     * Get the comments of the user.
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
+
     /**
      * Get the subscribed subbreddits of the user
      */
     public function subscribedSubbreddits()
     {
-        return $this->belongsToMany('App\Subbreddit');
+        return $this->belongsToMany('App\Subbreddit')->withTimestamps();
     }
+
 
 }
