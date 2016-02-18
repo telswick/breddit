@@ -10,8 +10,9 @@ class Comment extends Model
 
 	/**
      * Get the comments of the comment.
+     * Get the child comments owned by the comment.
      */
-    public function comments()
+    public function childComments()
     {
         return $this->hasMany('App\Comment');
     }
@@ -20,6 +21,7 @@ class Comment extends Model
 
 	/**
      * Get the post it (the comment) belongs to.
+     * Get the post that owns the comment.
      */
     public function post()
     {
@@ -28,6 +30,7 @@ class Comment extends Model
 
     /**
      * Get the user it (the comment) belongs to.
+     * Get the user that owns the comment.
      */
     public function user()
     {

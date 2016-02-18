@@ -17,6 +17,7 @@ class Post extends Model
 
     /**
      * Get the user it (the post) belongs to.
+     * Get the user that owns the post.
      */
     public function user()
     {
@@ -25,11 +26,11 @@ class Post extends Model
 
     /**
      * Get the subbreddit it (the post) belongs to.
+     * Get the subbreddit that owns the post.
      */
-    public function subreddit()
+    public function subbreddit()
     {
-        return $this->belongsTo('App\Subreddit');
+        return $this->belongsTo('App\Subbreddit');
     }
-
 
 }

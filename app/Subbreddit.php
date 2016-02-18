@@ -15,6 +15,7 @@ class Subbreddit extends Model
     }
     /**
      * Get the user it belongs to.
+     * Get the user that owns the subbreddit.
      */
     public function user()
     {
@@ -22,6 +23,7 @@ class Subbreddit extends Model
     }
     /**
      * Get the users that are subscribed to this subbreddit
+     * Get the subscribed users of the subbreddit.
      */
     public function subscribedUsers()
     {

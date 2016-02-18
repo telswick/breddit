@@ -32,6 +32,7 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Subbreddit');
     }
+
     /**
      * Get the posts of the user.
      */
@@ -49,12 +50,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the subscribed subbreddits of the user
+     * Get the subscribed subbreddits of the user.
      */
     public function subscribedSubbreddits()
     {
         return $this->belongsToMany('App\Subbreddit')->withTimestamps();
     }
-
-
 }
