@@ -16,13 +16,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'name' => $faker->name,
         'email' => $faker->email,
         'password' => bcrypt(str_random(10)),
-        'remember_token' => str_random(10),
+        'remember_token' => str_random(10)
     ];
 });
 
+// change 'name' to 'title' below
 $factory->define(App\Subbreddit::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->word,
+        'title' => $faker->word,
         'description' => $faker->text
     ];
 });
@@ -35,6 +36,6 @@ $factory->define(App\Post::class, function (Faker\Generator $faker) {
 });
 $factory->define(App\Comment::class, function (Faker\Generator $faker) {
     return [
-        'content' => $faker->text,
+        'content' => $faker->text
     ];
 });

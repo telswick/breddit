@@ -12,7 +12,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UserTableSeeder::class);
-        factory(App\User::class, 1000)->create()->each(function($user) {
+        // change # to 10 for now
+        factory(App\User::class, 10)->create()->each(function($user) {
             $user->subbreddits()->save(factory(App\Subbreddit::class)->make());
             $user->posts()->save(factory(App\Post::class)->make([
                 'subbreddit_id' => rand(1,App\Subbreddit::all()->count())
