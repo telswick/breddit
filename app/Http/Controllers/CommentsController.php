@@ -16,28 +16,31 @@ class CommentsController extends Controller
      */
     public function index()
     {
-        //
+        return \App\Comment::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    // Removed create
 
     /**
      * Store a newly created resource in storage.
+     * Comments have user_id, content, 
+     * and also post_id, comment_id
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $comment = new \App\Comment;
+
+        $comment->user_id = Auth::user()->id;         // changing $request to Auth::
+        $comment->content = $request->content;
+        $comment->post_id = $request->post_id;
+        $comment->comment_id = $request->comment_id;
+
+        $comment->save();
+
+        return $comment;
     }
 
     /**
@@ -48,22 +51,18 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        //
+        return \App\Comment::with([
+            'childComments', 
+            'user', 'subbreddits', 'posts'
+        ])->find($id);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    // removed edit
 
     /**
      * Update the specified resource in storage.
+     * Comments have user_id, content, 
+     * and also post_id, comment_id
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -71,7 +70,16 @@ class CommentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = \App\Comment::find($id);
+
+        $comment->user_id = Auth::user()->id;              // changing $request to Auth::
+        $comment->content = $request->content;
+        $comment->post_id = $request->post_id;
+        $comment->comment_id = $request->comment_id;
+        
+        $comment->save();
+
+        return $comment;
     }
 
     /**
@@ -82,6 +90,10 @@ class CommentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = \App\Comment::find($id);
+        $comment->delete();
+        // or replace find/delete with destroy in one line
+
+        return $comment;    // good in case of needing to undo
     }
 }
