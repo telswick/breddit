@@ -25,6 +25,8 @@ class SubbredditsController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * Subbreddits have user_id, title, description
+     * Fix: my subbreddits have title and not name!!
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -34,7 +36,7 @@ class SubbredditsController extends Controller
         $subbreddit = new \App\Subbreddit;
 
         $subbreddit->user_id = Auth::user()->id;         // changing $request to Auth::
-        $subbreddit->name = $request->name;
+        $subbreddit->title = $request->title;              // change name to title
         $subbreddit->description = $request->description;
         
         $subbreddit->save();
@@ -61,6 +63,8 @@ class SubbredditsController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * Subbreddits have user_id, title, description
+     * Fix: my subbreddits have title and not name!!
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -68,10 +72,10 @@ class SubbredditsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $subbreddit = \App\Subbreddit::find($id)
+        $subbreddit = \App\Subbreddit::find($id);
 
         $subbreddit->user_id = Auth::user()->id;              // changing $request to Auth::
-        $subbreddit->name = $request->name;
+        $subbreddit->title = $request->title;               // change name to title
         $subbreddit->description = $request->description;
         
         $subbreddit->save();
