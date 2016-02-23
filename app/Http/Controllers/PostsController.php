@@ -25,7 +25,7 @@ class PostsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * Posts have user_id, title, content
+     * Posts have user_id, title, description
      * and also subbreddit_id and url
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,7 +37,7 @@ class PostsController extends Controller
 
         $post->user_id = Auth::user()->id;         // changing $request to Auth::
         $post->title = $request->title;
-        $post->content = $request->content;
+        $post->description = $request->description;
         $post->url = $request->url;
         $post->subbreddit_id = $request->subbreddit_id;
         
@@ -49,7 +49,7 @@ class PostsController extends Controller
 
     /**
      * Display the specified resource.
-     * 
+     * Note: may need to fix order below
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -57,8 +57,8 @@ class PostsController extends Controller
     public function show($id)
     {
         return \App\Post::with([
-            'subbreddits.comments.childComments', 
-            'user'
+            'comments.childComments', 
+            'user', 'subbreddits'
         ])->find($id);
     }
 
@@ -66,7 +66,7 @@ class PostsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * Posts have user_id, title, content
+     * Posts have user_id, title, description
      * and also subbreddit_id and url
      *
      * @param  \Illuminate\Http\Request  $request

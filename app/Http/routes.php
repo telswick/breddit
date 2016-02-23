@@ -33,7 +33,15 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::resource('subbreddits', 'SubbredditsController', [
     	'only' => ['index', 'show']
-    ]);           
+    ]);    
+
+    // Adding routes for posts
+    Route::resource('posts', 'PostsController', [
+        'only' => ['index', 'show']
+    ]);   
+
+
+
 });
 
 // Question: what is the difference between ['web'] and 'web' groups?
@@ -46,4 +54,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::resource('subbreddits', 'SubbredditsController', [
     	'except' => ['create', 'edit']
     ]);
+
+    // Adding routes for posts
+    Route::resource('posts', 'PostsController', [
+        'except' => ['create', 'edit']
+    ]);
+
 });
