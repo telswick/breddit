@@ -40,6 +40,11 @@ Route::group(['middleware' => ['web']], function () {
         'only' => ['index', 'show']
     ]);   
 
+    // Adding routes for comments
+    Route::resource('comments', 'CommentsController', [
+        'only' => ['index', 'show']
+    ]);   
+
 
 
 });
@@ -57,6 +62,11 @@ Route::group(['middleware' => 'web'], function () {
 
     // Adding routes for posts
     Route::resource('posts', 'PostsController', [
+        'except' => ['create', 'edit']
+    ]);
+
+    // Adding routes for comments
+    Route::resource('comments', 'CommentsController', [
         'except' => ['create', 'edit']
     ]);
 
