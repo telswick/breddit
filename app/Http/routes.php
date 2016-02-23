@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Decided to move get and resource routes to web middleware group below
 
-Route::resource('subbreddits', 'SubbredditsController', [
-		'except' => ['edit', 'create']
-		]);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,11 +27,23 @@ Route::resource('subbreddits', 'SubbredditsController', [
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::resource('subbreddits', 'SubbredditsController', [
+    	'only' => ['index', 'show']
+    ]);           
 });
+
+// Question: what is the difference between ['web'] and 'web' groups?
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/home', 'HomeController@index');
+
+    Route::resource('subbreddits', 'SubbredditsController', [
+    	'except' => ['create', 'edit']
+    ]);
 });
