@@ -25,7 +25,7 @@ class PostsController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * Posts have user_id, title, description
+     * Posts have user_id, title, content
      * and also subbreddit_id and url
      *
      * @param  \Illuminate\Http\Request  $request
@@ -37,7 +37,7 @@ class PostsController extends Controller
 
         $post->user_id = Auth::user()->id;         // changing $request to Auth::
         $post->title = $request->title;
-        $post->description = $request->description;
+        $post->content = $request->content;
         $post->url = $request->url;
         $post->subbreddit_id = $request->subbreddit_id;
         
@@ -66,7 +66,7 @@ class PostsController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * Posts have user_id, title, description
+     * Posts have user_id, title, content
      * and also subbreddit_id and url
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,7 +79,7 @@ class PostsController extends Controller
 
         $post->user_id = Auth::user()->id;              // changing $request to Auth::
         $post->title = $request->title;
-        $post->description = $request->description;
+        $post->content = $request->content;
         $post->url = $request->url;
         $post->subbreddit_id = $request->subbreddit_id;
         
