@@ -13,6 +13,9 @@
 
 // Decided to move get and resource routes to web middleware group below
 
+Route::get('/', function () {
+    return view('welcome');
+});
 
 
 /*
@@ -26,48 +29,35 @@
 |
 */
 
-Route::group(['middleware' => ['web']], function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
 
-    Route::resource('subbreddits', 'SubbredditsController', [
-    	'only' => ['index', 'show']
-    ]);    
-
-    // Adding routes for posts
-    Route::resource('posts', 'PostsController', [
-        'only' => ['index', 'show']
-    ]);   
-
-    // Adding routes for comments
-    Route::resource('comments', 'CommentsController', [
-        'only' => ['index', 'show']
-    ]);   
-
-
-
-});
-
-// Question: what is the difference between ['web'] and 'web' groups?
+// Question: what is the difference between ['web'] and 'web' groups? No diff
 
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
+
     Route::get('/home', 'HomeController@index');
 
+
     Route::resource('subbreddits', 'SubbredditsController', [
-    	'except' => ['create', 'edit']
+        'except' => ['edit', 'create']
     ]);
 
-    // Adding routes for posts
+
     Route::resource('posts', 'PostsController', [
-        'except' => ['create', 'edit']
+        'except' => ['edit', 'create']
     ]);
 
-    // Adding routes for comments
+
     Route::resource('comments', 'CommentsController', [
-        'except' => ['create', 'edit']
+        'except' => ['edit', 'create']
     ]);
+
+
+    Route::group(['middleware' => 'auth'], function () {
+        Route::resource('subbreddits', 'SubbredditsController', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
+    });
 
 });
