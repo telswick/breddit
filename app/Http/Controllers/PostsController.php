@@ -35,9 +35,9 @@ class PostsController extends Controller
     {
         $post = new \App\Post;
 
-        $post->user_id = Auth::user()->id;         // changing $request to Auth::
+        $post->user_id = \Auth::user()->id;         // changing $request to \Auth::
         $post->title = $request->title;
-        $post->content = $request->content;
+        $post->content = $request->post_content;    // change to post_content
         $post->url = $request->url;
         $post->subbreddit_id = $request->subbreddit_id;
         
@@ -77,11 +77,11 @@ class PostsController extends Controller
     {
         $post = \App\Post::find($id);
 
-        $post->user_id = Auth::user()->id;              // changing $request to Auth::
+        // $post->user_id = Auth::user()->id;              // Remove, can't update user_id
         $post->title = $request->title;
-        $post->content = $request->content;
+        $post->content = $request->post_content;           // Change to post_content
         $post->url = $request->url;
-        $post->subbreddit_id = $request->subbreddit_id;
+        // $post->subbreddit_id = $request->subbreddit_id; // Remove, can't update subbreddit_id   
         
         $post->save();
 

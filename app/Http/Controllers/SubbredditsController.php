@@ -35,7 +35,7 @@ class SubbredditsController extends Controller
     {
         $subbreddit = new \App\Subbreddit;
 
-        $subbreddit->user_id = Auth::user()->id;         // changing $request to Auth::
+        $subbreddit->user_id = \Auth::user()->id;         // changing $request to \Auth::
         $subbreddit->title = $request->title;              // change name to title
         $subbreddit->description = $request->description;
         
@@ -74,7 +74,7 @@ class SubbredditsController extends Controller
     {
         $subbreddit = \App\Subbreddit::find($id);
 
-        $subbreddit->user_id = Auth::user()->id;              // changing $request to Auth::
+        // $subbreddit->user_id = Auth::user()->id;         // Remove, can't update user_id
         $subbreddit->title = $request->title;               // change name to title
         $subbreddit->description = $request->description;
         

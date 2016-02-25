@@ -33,8 +33,8 @@ class CommentsController extends Controller
     {
         $comment = new \App\Comment;
 
-        $comment->user_id = Auth::user()->id;         // changing $request to Auth::
-        $comment->content = $request->content;
+        $comment->user_id = \Auth::user()->id;         // changing $request to \Auth::
+        $comment->content = $request->comment_content;  // change to comment_content
         $comment->post_id = $request->post_id;
         $comment->comment_id = $request->comment_id;
 
@@ -72,10 +72,10 @@ class CommentsController extends Controller
     {
         $comment = \App\Comment::find($id);
 
-        $comment->user_id = Auth::user()->id;              // changing $request to Auth::
-        $comment->content = $request->content;
-        $comment->post_id = $request->post_id;
-        $comment->comment_id = $request->comment_id;
+        // $comment->user_id = Auth::user()->id;            // Remove, can't update user_id
+        $comment->content = $request->comment_content;      // change to comement_content
+        // $comment->post_id = $request->post_id;           // Remove, can't update post_id
+        // $comment->comment_id = $request->comment_id;     // Remove, can't change comment_id
         
         $comment->save();
 
