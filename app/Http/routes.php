@@ -40,24 +40,31 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::resource('subbreddits', 'SubbredditsController', [
-        'except' => ['edit', 'create']
+        'only' => ['index', 'show']          // be more explicit by using only
     ]);
 
 
     Route::resource('posts', 'PostsController', [
-        'except' => ['edit', 'create']
+        'only' => ['index', 'show']
     ]);
 
 
     Route::resource('comments', 'CommentsController', [
-        'except' => ['edit', 'create']
+        'only' => ['index', 'show']
     ]);
 
 
     Route::group(['middleware' => 'auth'], function () {
+        Route::resource('posts', 'PostsController', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
+        Route::resource('comments', 'CommentsController', [
+            'only' => ['store', 'update', 'destroy']
+        ]);
         Route::resource('subbreddits', 'SubbredditsController', [
             'only' => ['store', 'update', 'destroy']
         ]);
+
     });
 
 });
