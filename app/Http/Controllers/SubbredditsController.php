@@ -74,11 +74,19 @@ class SubbredditsController extends Controller
     {
         $subbreddit = \App\Subbreddit::find($id);
 
-        // $subbreddit->user_id = Auth::user()->id;         // Remove, can't update user_id
-        $subbreddit->title = $request->title;               // change name to title
-        $subbreddit->description = $request->description;
+        // Add authorization, must be owner to update
+
+        if ($subbreddit->user_id == \Auth::user()->id)  {
+            // $subbreddit->user_id = Auth::user()->id;         // Remove, can't update user_id
+            $subbreddit->title = $request->title;               // change name to title
+            $subbreddit->description = $request->description;
         
-        $subbreddit->save();
+            $subbreddit->save();
+        }
+        else  {
+            return response("Unauthorized", 403);
+        }  
+        
 
         return $subbreddit;
     }
@@ -91,9 +99,18 @@ class SubbredditsController extends Controller
      */
     public function destroy($id)
     {
+
         $subbreddit = \App\Subbreddit::find($id);
-        $subbreddit->delete();
+
+        // Add authorization, must be owner to destroy
+
+        if ($subbreddit->user_id == \Auth::user()->id)  {
+            $subbreddit->delete();
         // or replace find/delete with destroy in one line
+        }
+        else  {
+            return response("Unauthorized", 403);
+        }
 
         return $subbreddit;    // good in case of needing to undo
 

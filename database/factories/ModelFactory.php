@@ -21,9 +21,10 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 });
 
 // change 'name' to 'title' below
+// add unique to subbreddits title field
 $factory->define(App\Subbreddit::class, function (Faker\Generator $faker) {
     return [
-        'title' => $faker->word,
+        'title' => $faker->unique()->word,
         'description' => $faker->text
     ];
 });

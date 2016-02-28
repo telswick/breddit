@@ -77,13 +77,20 @@ class PostsController extends Controller
     {
         $post = \App\Post::find($id);
 
-        // $post->user_id = Auth::user()->id;              // Remove, can't update user_id
-        $post->title = $request->title;
-        $post->content = $request->post_content;           // Change to post_content
-        $post->url = $request->url;
-        // $post->subbreddit_id = $request->subbreddit_id; // Remove, can't update subbreddit_id   
+        // Add authorization, must be owner to update
+
+        if ($post->user_id == \Auth::user()->id)  {
+            // $post->user_id = Auth::user()->id;              // Remove, can't update user_id
+            $post->title = $request->title;
+            $post->content = $request->post_content;           // Change to post_content
+            $post->url = $request->url;
+            // $post->subbreddit_id = $request->subbreddit_id; // Remove, can't update subbreddit_id   
         
-        $post->save();
+            $post->save();
+        }
+        else  {
+            return response("Unauthorized", 403);
+        }
 
         return $post;
     }
@@ -96,9 +103,17 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        $post = \App\Post::find($id);
-        $post->delete();
-        // or replace find/delete with destroy in one line
+
+        // Add authorization, must be owner to destroy
+
+        if ($post->user_id == \Auth::user()->id)  {
+            $post = \App\Post::find($id);
+            $post->delete();
+            // or replace find/delete with destroy in one line
+        }
+        else  {
+            return response("Unauthorized", 403);
+        }
 
         return $post;    // good in case of needing to undo
 

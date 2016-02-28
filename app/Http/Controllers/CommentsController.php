@@ -72,12 +72,18 @@ class CommentsController extends Controller
     {
         $comment = \App\Comment::find($id);
 
-        // $comment->user_id = Auth::user()->id;            // Remove, can't update user_id
-        $comment->content = $request->comment_content;      // change to comement_content
-        // $comment->post_id = $request->post_id;           // Remove, can't update post_id
-        // $comment->comment_id = $request->comment_id;     // Remove, can't change comment_id
-        
-        $comment->save();
+        // Add authorization, must be owner to update
+
+        if ($comment->user_id == \Auth::user()->id)  {
+            // $comment->user_id = Auth::user()->id;            // Remove, can't update user_id
+            $comment->content = $request->comment_content;      // change to comement_content
+            // $comment->post_id = $request->post_id;           // Remove, can't update post_id
+            // $comment->comment_id = $request->comment_id;     // Remove, can't change comment_id
+            $comment->save();
+        }   
+        else  {
+            return response("Unauthorized", 403);
+        }
 
         return $comment;
     }
@@ -91,8 +97,16 @@ class CommentsController extends Controller
     public function destroy($id)
     {
         $comment = \App\Comment::find($id);
-        $comment->delete();
-        // or replace find/delete with destroy in one line
+
+        // Add authorization, must be owner to destroy
+
+        if ($comment->user_id == \Auth::user()->id)  {
+            $comment->delete();
+            // or replace find/delete with destroy in one line
+        }
+        else  {
+            return response("Unauthorized", 403);
+        }    
 
         return $comment;    // good in case of needing to undo
     }
