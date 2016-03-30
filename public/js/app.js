@@ -1,107 +1,142 @@
 'use strict';
 
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+// $(document).on('ready', function() {
 
-var PostModel = Backbone.Model.extend({
-	urlRoot: '/api/posts/',
-	idAttribute: 'id',
-});
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
 
-var SubbredditModel = Backbone.Model.extend({
-	urlRoot: '/api/subbreddits/',
-	idAttribute: 'id'
-});
+    var PostModel = Backbone.Model.extend({
+        urlRoot: '/api/posts/',
+        idAttribute: 'id',
 
-var CommentModel = Backbone.Model.extend({
-	urlRoot: '/api/comments/',
-	idAttribute: 'id'
-});
+        parse: function(response) {
+            if (response.subbreddit) {
+                response.subbreddit = new SubbredditModel(response.subbreddit);
+            }
+            return response;
+        }
+    });
 
-var PostsCollection = Backbone.Collection.extend({
-	url: '/api/posts/',
-	model: PostModel
-});
+    var SubbredditModel = Backbone.Model.extend({
+        urlRoot: '/api/subbreddits/',
+        idAttribute: 'id'
+    });
 
-var SubbredditsCollection = Backbone.Collection.extend({
-	url: '/api/subbreddits/',
-	model: SubbredditModel
-});
+    var CommentModel = Backbone.Model.extend({
+        urlRoot: '/api/comments/',
+        idAttribute: 'id'
+    });
 
-var CommentsCollection = Backbone.Collection.extend({
-	url: '/api/comments/',
-	model: CommentModel
-});
+    var PostsCollection = Backbone.Collection.extend({
+        url: '/api/posts/',
+        model: PostModel
+    });
 
-var PostItemView = Backbone.View.extend({
-	el:'<li class="hello"></li>',
+    var SubbredditsCollection = Backbone.Collection.extend({
+        url: '/api/subbreddits/',
+        model: SubbredditModel
+    });
 
-	template: _.template('<h2><%= post.get("title") %></h2>'),
+    var CommentsCollection = Backbone.Collection.extend({
+        url: '/api/comments/',
+        model: CommentModel
+    });
 
-	events: {
-		'click h2': function(e) {
-			this.model.destroy();
-		}
-	},
+    var HomeView = Backbone.View.extend({
+        el:'\
+            <div class="container">\
+                <div class="row">\
+                    <div class="three columns"></div>\
+                    <div class="six columns">\
+                        <div class="row">\
+                            <div class="twelve columns" id="posts"></div>\
+                        </div>\
+                        <div class="row">\
+                            <div class="twelve columns"></div>\
+                        </div>\
+                    </div>\
+                    <div class="three columns" id="all-subbreddits"></div>\
+                </div>\
+            </div>\
+        ',
 
-	initialize: function() {
-		// this.listenTo(this.model, 'all', function() {
-		// 	console.log(arguments);
-		// });
-		this.listenTo(this.model, 'sync', this.render);
-	},
+        insertSubbreddits: function() {
+            var subbreddits = new SubbredditsCollection();
+            subbreddits.fetch();
+            var subbredditsListView = new SubbredditsListView({ 
+                collection: subbreddits
+            });
+            this.$el.find('#all-subbreddits').html(subbredditsListView.render().el);
+        },
 
-	render: function() {
-		this.$el.html(this.template({ post: this.model }));
-	}
-});
+        insertPosts: function() {
+            var posts = new PostsCollection();
+            posts.fetch();
+            var postsListView = new PostsListView({ 
+                collection: posts
+            });
+            this.$el.find('#posts').html(postsListView.render().el);
+        },
 
-var PostsListView = Backbone.View.extend({
-	el: '<ul></ul>',
+        render: function() {
+            this.insertSubbreddits();
+            this.insertPosts();
 
-	template: undefined,
+            return this;
+        }
+    });
 
-	initialize: function() {
-		this.listenTo(this.collection, 'all', function(event) {
-			console.log(event);
-		});
-		this.listenTo(this.collection, 'sync update', this.render);
-	},
+    var SubbredditsListView = Backbone.View.extend({
+        el: '<ul></ul>',
 
-	render: function() {
-		var that = this;
-		this.$el.html('');
-		this.collection.each(function(postModel) {
-			var postItemView = new PostItemView({ model: postModel });
-			postItemView.render();
-			that.$el.append(postItemView.el);
-		});
-		return this;
-	}
-});
+        template: _.template('\
+            <% subbreddits.each(function(subbreddit) { %>\
+                <li><a href="#"><%= subbreddit.get("name") %></a></li>\
+            <% }) %>\
+        '),
 
-var posts = new PostsCollection();
+        initialize: function() {
+            this.listenTo(this.collection, 'update', this.render);
+        },
 
-posts.fetch();
+        render: function() {
+            this.$el.html(this.template({ subbreddits: this.collection }));
+            return this;
+        }
+    });
 
-var postsListView = new PostsListView({collection: posts});
-postsListView.render();
+    var PostsListView = Backbone.View.extend({
+        el: '<ul></ul>',
+        template: _.template('\
+            <% posts.each(function(post) { %>\
+                <li>\
+                    <a href="#"><%= post.get("title") %></a>\
+                    <% if (post.get("subbreddit")) { %>\
+                        <small><%= post.get("subbreddit").get("name") %></small>\
+                    <% } %>\
+                </li>\
+            <% }) %>\
+        '),
 
-$('#content').html(postsListView.el);
-console.log('view inserted!');
+        initialize: function() {
+            this.listenTo(this.collection, 'update', this.render);
+        },
+
+        render: function() {
+            this.$el.html(this.template({ posts: this.collection }));
+            return this;
+        }
+    });
+
+
+    var homeView = new HomeView();
+    $('#content').html(homeView.render().el);
+
+// })
 
 
 
-// var post = new PostModel({id: 1});
 
-// post.fetch({
-// 	success: function() {
-// 		var postItemView = new PostItemView({ model: post });
-// 		postItemView.render();
-
-// 		$('#content').html(postItemView.el);
-// 	}
-// });

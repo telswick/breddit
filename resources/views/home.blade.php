@@ -11,7 +11,23 @@
 
 
     <!-- Styles -->
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <style>
+        body {
+            font-size: 10px;
+        }
+        .container {
+            width: 100%;
+        }
+        #all-subbreddits {
+            height: 600px;
+            overflow: scroll;
+        }
+        #posts {
+            height: 300px;
+            overflow: scroll;
+        }
+    </style>
     
 </head>
 <body>
