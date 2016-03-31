@@ -16,13 +16,16 @@
         body {
             font-size: 14px;
         }
+
         .container {
             width: 100%;
         }
+
         #all-subbreddits {
             height: 600px;
             overflow: scroll;
         }
+        
         #posts {
             height: 300px;
             overflow: scroll;

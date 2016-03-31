@@ -51,10 +51,7 @@ class CommentsController extends Controller
      */
     public function show($id)
     {
-        return \App\Comment::with([
-            'childComments', 
-            'user', 'subbreddits', 'posts'
-        ])->find($id);
+        return \App\Comment::find($id);
     }
 
     // removed edit

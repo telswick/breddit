@@ -56,10 +56,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        return \App\Post::with([
-            'comments.childComments', 
-            'user', 'subbreddits'
-        ])->find($id);
+        return \App\Post::find($id);
     }
 
     // removed edit
@@ -106,8 +103,8 @@ class PostsController extends Controller
 
         // Add authorization, must be owner to destroy
 
+        $post = \App\Post::find($id);
         if ($post->user_id == \Auth::user()->id)  {
-            $post = \App\Post::find($id);
             $post->delete();
             // or replace find/delete with destroy in one line
         }

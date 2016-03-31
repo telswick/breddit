@@ -96,12 +96,14 @@
         }
     });
 
+
+    // My subbreddits have title not name
     var SubbredditsListView = Backbone.View.extend({
         el: '<ul></ul>',
 
         template: _.template('\
             <% subbreddits.each(function(subbreddit) { %>\
-                <li><a data-id="<%= subbreddit.id %>" href="#"><%= subbreddit.get("name") %></a></li>\
+                <li><a data-id="<%= subbreddit.id %>" href="#"><%= subbreddit.get("title") %></a></li>\
             <% }) %>\
         '),
 
@@ -131,6 +133,7 @@
         }
     });
 
+    // My subbreddits have title not name
     var PostsListView = Backbone.View.extend({
         el: '<ul></ul>',
         template: _.template('\
@@ -138,7 +141,7 @@
                 <li>\
                     <a href="#"><%= post.get("title") %></a>\
                     <% if (post.get("subbreddit")) { %>\
-                        <small><%= post.get("subbreddit").get("name") %></small>\
+                        <small><%= post.get("subbreddit").get("title") %></small>\
                     <% } %>\
                 </li>\
             <% }) %>\
