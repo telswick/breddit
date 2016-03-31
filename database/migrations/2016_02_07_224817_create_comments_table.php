@@ -18,7 +18,7 @@ class CreateCommentsTable extends Migration
             $table->integer('post_id')->unsigned()->nullable()->index();
             $table->integer('comment_id')->unsigned()->nullable()->index();
             $table->integer('user_id')->unsigned()->index();
-            $table->text('content');
+            $table->text('comment_content');
         });
     }
 

@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return \App\Post::all();
+        return \App\Post::with('subbreddit')->orderBy('id', 'desc')->get();
     }
 
     // Removed create
@@ -37,7 +37,7 @@ class PostsController extends Controller
 
         $post->user_id = \Auth::user()->id;         // changing $request to \Auth::
         $post->title = $request->title;
-        $post->content = $request->post_content;    // change to post_content
+        $post->post_content = $request->post_content;    // change to post_content
         $post->url = $request->url;
         $post->subbreddit_id = $request->subbreddit_id;
         
@@ -82,7 +82,7 @@ class PostsController extends Controller
         if ($post->user_id == \Auth::user()->id)  {
             // $post->user_id = Auth::user()->id;              // Remove, can't update user_id
             $post->title = $request->title;
-            $post->content = $request->post_content;           // Change to post_content
+            $post->post_content = $request->post_content;           // Change to post_content
             $post->url = $request->url;
             // $post->subbreddit_id = $request->subbreddit_id; // Remove, can't update subbreddit_id   
         
