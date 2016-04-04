@@ -1,3 +1,6 @@
+var Backbone = require('backbone');
+var _ = require('underscore');
+
 var HomeView = Backbone.View.extend({
         el:'\
             <div class="container">\
@@ -20,7 +23,7 @@ var HomeView = Backbone.View.extend({
             var SubbredditsCollection = require('../collections/SubbredditsCollection.js');
             var subbreddits = new SubbredditsCollection();
             subbreddits.fetch();
-            var SubbredditsListView = require('./PostsListView.js');
+            var SubbredditsListView = require('./SubbredditsListView.js');
             var subbredditsListView = new SubbredditsListView({ 
                 collection: subbreddits
             });
@@ -28,9 +31,10 @@ var HomeView = Backbone.View.extend({
         },
 
         insertPosts: function() {
+            var PostsCollection = require('../collections/PostsCollection.js');
             var posts = new PostsCollection();
             posts.fetch();
-            var PostsListView = require('./views/PostsListView');
+            var PostsListView = require('./PostsListView.js');
             var postsListView = new PostsListView({ 
                 collection: posts
             });

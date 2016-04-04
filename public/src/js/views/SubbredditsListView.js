@@ -1,3 +1,6 @@
+var Backbone = require('backbone');
+var _ = require('underscore');
+
 // My subbreddits have title not name
     var SubbredditsListView = Backbone.View.extend({
         el: '<ul></ul>',
@@ -12,9 +15,11 @@
             'click a': function(event) {
                 event.preventDefault();
                 var subbredditId = $(event.target).data('id');
+                var SubbredditModel = require('../models/SubbredditModel.js');
                 var subbreddit = new SubbredditModel({id: subbredditId});
                 subbreddit.fetch({
                     success: function() {
+                        var PostsListView = require('./PostsListView.js');
                         var postsListView = new PostsListView({ 
                             collection: subbreddit.get('posts')
                         });
