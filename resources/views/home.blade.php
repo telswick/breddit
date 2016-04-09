@@ -11,7 +11,7 @@
 
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <style>
         body {
             font-size: 14px;
@@ -34,6 +34,7 @@
     
 </head>
 <body>
+    <div id="nav"></div>
     <div id="content"></div>
     <!-- JavaScripts (moving all but bundle.js) -->
     <script src="{{ asset('js/bundle.js') }}"></script>
