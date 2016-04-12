@@ -12,7 +12,13 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
+
   "browser": {
     "foundation": "./node_modules/foundation-sites/js/foundation.js"
+  },
+
+  "scripts": {
+    "develop": "./node_modules/.bin/gulp"
   }
+
 }
