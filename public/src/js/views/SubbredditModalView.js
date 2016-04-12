@@ -9,7 +9,7 @@ var SubbredditModalView = Backbone.View.extend({
 	template: _.template('\
 		<h3>Add a Subbreddit</h3>\
 		<form>\
-			<input type="text" name="name">\
+			<input type="text" name="title">\
 			<textarea name="description"></textarea>\
 			<input type="submit" value="Submit" class="button">\
 		</form>\
@@ -21,7 +21,7 @@ var SubbredditModalView = Backbone.View.extend({
 			var that = this;
 			event.preventDefault();
 			var subbreddit = new SubbredditModel({
-				name: $(event.target).find('[name="title"]').val(),
+				title: $(event.target).find('[name="title"]').val(),
 				description: $(event.target).find('[name="description"]').val()
 			});
 			subbreddit.save(null, {
