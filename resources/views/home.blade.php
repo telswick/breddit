@@ -36,6 +36,7 @@
 <body>
     <div id="nav"></div>
     <div id="content"></div>
+    <div id="modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog"></div>
     <div data-user-id="{{ $userId }}"></div>
     <!-- JavaScripts (moving all but bundle.js) -->
     <script src="{{ asset('js/bundle.js') }}"></script>
