@@ -7,7 +7,7 @@ var _ = require('underscore');
         template: _.template('\
             <% posts.each(function(post) { %>\
                 <li>\
-                        <a href="#"><%= post.get("title") %></a>\
+                        <a href="#post/<%= post.id %>"><%= post.get("title") %></a>\
                         <% if (post.get("subbreddit")) { %>\
                             <small><%= post.get("subbreddit").get("title") %></small>\
                         <% } %>\
