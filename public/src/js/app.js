@@ -7,11 +7,11 @@ require('foundation');
 var HomeView = require('./views/HomeView.js');
 var TopNavView = require('./views/TopNavView.js');
 var PostView = require('./views/PostView.js');
-var PostModel = require('./models/PostModel');
+var PostModel = require('./models/PostModel.js');
 
 
 $(document).on('ready', function() {
-  $(document).foundation();
+    $(document).foundation();
 
   $.ajaxSetup({
     headers: {
