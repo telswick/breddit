@@ -35,4 +35,4 @@ gulp.task('watch', function() {
 });
 
 gulp.task('build', ['bundle', 'sass']);
-gulp.task('default', ['bundle', 'watch']);
+gulp.task('default', ['build', 'watch']);
